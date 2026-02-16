@@ -1,0 +1,35 @@
+# ======================
+# PYTHON
+# ======================
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# ======================
+# DATA
+# ======================
+api/data/
+*.csv
+
+# ======================
+# ENV
+# ======================
+.env
+*.env
+
+# ======================
+# NODE / NEXT
+# ======================
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
