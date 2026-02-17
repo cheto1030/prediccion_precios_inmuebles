@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 export default function Home() {
   // URL del backend (local por ahora)
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000";
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "https://prediccion-precios-inmuebles.onrender.com";
 
   // Estado del formulario (solo 8 campos clave)
   const [form, setForm] = useState({
