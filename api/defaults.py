@@ -8,9 +8,7 @@ import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# ⚠️ Pon aquí el path correcto a tu train.csv
-# Recomendación: copia train.csv dentro de api/ o usa ruta relativa al proyecto.
-# Opción simple: copiar train.csv a api/train.csv
+# Path correcto a tu train.csv (en local puede existir, en Render no)
 TRAIN_PATH = BASE_DIR / "train.csv"
 
 
@@ -50,8 +48,36 @@ def compute_defaults(train_path: Path) -> Tuple[Dict[str, Any], Dict[str, str]]:
     return defaults, types
 
 
-# Cargamos defaults al importar el módulo
-DEFAULTS, FEATURE_TYPES = compute_defaults(TRAIN_PATH)
+# ----------------------------
+# FALLBACK (para producción)
+# ----------------------------
+# Estos valores permiten arrancar la API en Render aunque NO exista api/train.csv.
+# Son defaults "razonables" para los campos que usa tu frontend.
+DEFAULTS: Dict[str, Any] = {
+    "OverallQual": 5.0,
+    "GrLivArea": 1500.0,
+    "TotalBsmtSF": 900.0,
+    "YearBuilt": 2000.0,
+    "Neighborhood": "NAmes",
+    "GarageCars": 2.0,
+    "FullBath": 2.0,
+    "BedroomAbvGr": 3.0,
+}
+
+FEATURE_TYPES: Dict[str, str] = {
+    "OverallQual": "numeric",
+    "GrLivArea": "numeric",
+    "TotalBsmtSF": "numeric",
+    "YearBuilt": "numeric",
+    "Neighborhood": "categorical",
+    "GarageCars": "numeric",
+    "FullBath": "numeric",
+    "BedroomAbvGr": "numeric",
+}
+
+# Si existe train.csv (local), recalculamos los defaults reales del dataset
+if TRAIN_PATH.exists():
+    DEFAULTS, FEATURE_TYPES = compute_defaults(TRAIN_PATH)
 
 
 def fill_missing_features(features: Dict[str, Any]) -> Dict[str, Any]:
@@ -59,7 +85,7 @@ def fill_missing_features(features: Dict[str, Any]) -> Dict[str, Any]:
     Rellena campos faltantes con defaults.
     Convierte NaN/inf a None para evitar problemas de JSON.
     """
-    filled = {}
+    filled: Dict[str, Any] = {}
 
     for col, default_val in DEFAULTS.items():
         val = features.get(col, None)
@@ -75,3 +101,4 @@ def fill_missing_features(features: Dict[str, Any]) -> Dict[str, Any]:
         filled[col] = val
 
     return filled
+
