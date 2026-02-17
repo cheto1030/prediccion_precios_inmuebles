@@ -28,7 +28,7 @@ app.add_middleware(
     # Orígenes permitidos (tu Next.js en local y tu dominio de Vercel)
     allow_origins=[
         "http://localhost:3000",
-        "https://prediccion-precios-inmuebles.vercel.app/",
+        "https://prediccion-precios-inmuebles.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],   # Permitimos GET/POST/etc
