@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 export default function Home() {
   // URL del backend (local por ahora)
-  const API_BASE = "http://127.0.0.1:8000";
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000";
 
   // Estado del formulario (solo 8 campos clave)
   const [form, setForm] = useState({
@@ -270,7 +270,7 @@ async function handleFeedback() {
           </p>
         </div>
       )}
-      
+
       {result && (
         <div style={{ marginTop: 14, padding: 14, border: "1px solid #eee", borderRadius: 8 }}>
           <h3 style={{ margin: 0, fontSize: 16 }}>Feedback (opcional)</h3>
