@@ -22,14 +22,19 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Permite llamadas desde el frontend (navegador) a esta API
+# Permite llamadas desde el frontend (local + Vercel) a esta API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Next.js en local
+    # Orígenes permitidos (tu Next.js en local y tu dominio de Vercel)
+    allow_origins=[
+        "http://localhost:3000",
+        "https://prediccion-precios-inmuebles.vercel.app/",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],   # Permitimos GET/POST/etc
+    allow_headers=["*"],   # Permitimos headers típicos (Content-Type, etc.)
 )
+
 
 
 
